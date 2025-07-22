@@ -7,22 +7,22 @@ from .geoparquet import GeoParquetWriter
 
 
 class BoundariesWriter(GeoParquetWriter):
-    TAGS = [
-        "name",
+    TAG_COLUMNS = [
+        ("name", pyarrow.string()),
         ("multilingual_names", pyarrow.map_(pyarrow.string(), pyarrow.string())),
-        "type",
-        "admin_level",
-        "boundary",
-        "place",
-        "ISO3166-2",
-        "ISO3166-1:alpha2",
-        "ISO3166-1:alpha3",
+        ("type", pyarrow.string()),
+        ("admin_level", pyarrow.string()),
+        ("boundary", pyarrow.string()),
+        ("place", pyarrow.string()),
+        ("ISO3166-2", pyarrow.string()),
+        ("ISO3166-1:alpha2", pyarrow.string()),
+        ("ISO3166-1:alpha3", pyarrow.string()),
     ]
 
     FILTERS = {"boundary"}
 
     def __init__(self, filename):
-        super().__init__(filename, self.TAGS)
+        super().__init__(filename, self.TAG_COLUMNS)
 
     def area(self, o):
         if o.tags.get("boundary") not in {
