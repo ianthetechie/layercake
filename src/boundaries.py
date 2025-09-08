@@ -42,12 +42,13 @@ class BoundariesWriter(GeoParquetWriter):
 
     def columns(self, tags: TagList):
         # Preserve the basic tags as-is
-        # TODO: alt names?
         res = {tag.k: tag.v for tag in tags if not tag.k.startswith("name:")}
 
         # Special shape transformation for names
         name_tags = {tag.k: tag.v for tag in tags if tag.k.startswith("name:")}
 
         res["multilingual_names"] = name_tags
+
+        # TODO: alt names?
 
         return {key: res.get(key) for (key, _) in self.COLUMNS}
