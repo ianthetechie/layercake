@@ -34,20 +34,20 @@ class BoundariesWriter(GeoParquetWriter):
             self.append(
                 "way" if o.from_way() else "relation",
                 o.orig_id(),
-                process_tags(o.tags),
+                self.columns(o.tags),
                 self.wkbfactory.create_multipolygon(o),
             )
         except RuntimeError as e:
             print(e, file=sys.stderr)
 
+    def columns(self, tags: TagList):
+        # Preserve the basic tags as-is
+        # TODO: alt names?
+        res = {tag.k: tag.v for tag in tags if not tag.k.startswith("name:")}
 
-def process_tags(tags: TagList):
-    # Preserve the basic tags as-is
-    # TODO: alt names?
-    res = {tag.k: tag.v for tag in tags if not tag.k.startswith("name:")}
+        # Special shape transformation for names
+        name_tags = {tag.k: tag.v for tag in tags if tag.k.startswith("name:")}
 
-    # Special shape transformation for names
-    name_tags = {tag.k: tag.v for tag in tags if tag.k.startswith("name:")}
+        res["multilingual_names"] = name_tags
 
-    res["multilingual_names"] = name_tags
-    return res
+        return {key: res.get(key) for (key, _) in self.COLUMNS}
