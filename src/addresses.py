@@ -82,11 +82,14 @@ class AddressesWriter(GeoParquetWriter):
     def area(self, o):
         if is_house_number_or_name(o) and not is_address(o):
             # See comment above on the node cache
-            self.house_number_area_cache[o.orig_id()] = (
-                "way" if o.from_way() else "relation",
-                self.wkbfactory.create_multipolygon(o),
-                {tag.k: tag.v for tag in o.tags},
-            )
+            try:
+                self.house_number_area_cache[o.orig_id()] = (
+                    "way" if o.from_way() else "relation",
+                    self.wkbfactory.create_multipolygon(o),
+                    {tag.k: tag.v for tag in o.tags},
+                )
+            except RuntimeError as e:
+                print(e, file=sys.stderr)
         if not is_address(o):
             return
         try:
