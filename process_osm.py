@@ -5,6 +5,7 @@ import argparse
 import osmium
 
 from src.highways import HighwaysWriter
+from src.boundaries import BoundariesWriter
 from src.buildings import BuildingsWriter
 from src.boundaries import BoundariesWriter
 from src.addresses import AddressesWriter
@@ -12,6 +13,7 @@ from src.postalcodes import PostalCodesWriter
 
 LAYERS = {
     "highways": HighwaysWriter,
+    "boundaries": BoundariesWriter,
     "buildings": BuildingsWriter,
     "boundaries": BoundariesWriter,
     "addresses": AddressesWriter,
