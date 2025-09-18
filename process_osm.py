@@ -7,6 +7,7 @@ import osmium
 from src.highways import HighwaysWriter
 from src.boundaries import BoundariesWriter
 from src.buildings import BuildingsWriter
+from src.settlements import SettlementsWriter
 from src.boundaries import BoundariesWriter
 from src.addresses import AddressesWriter
 from src.postalcodes import PostalCodesWriter
@@ -15,6 +16,7 @@ LAYERS = {
     "highways": HighwaysWriter,
     "boundaries": BoundariesWriter,
     "buildings": BuildingsWriter,
+    "settlements": SettlementsWriter,
     "boundaries": BoundariesWriter,
     "addresses": AddressesWriter,
     "postalcodes": PostalCodesWriter,
