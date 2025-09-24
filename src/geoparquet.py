@@ -2,6 +2,7 @@ import json
 import binascii
 import typing
 
+import antimeridian
 import osmium
 import pyarrow
 import pyarrow.parquet
@@ -122,7 +123,7 @@ class GeoParquetWriter(osmium.SimpleHandler):
         geom = shapely.wkb.loads(wkb_hex, hex=True)
         wkb = binascii.unhexlify(wkb_hex)
 
-        bbox = dict(zip(["xmin", "ymin", "xmax", "ymax"], shapely.bounds(geom)))
+        bbox = dict(zip(["xmin", "ymin", "xmax", "ymax"], antimeridian.bbox(geom)))
 
         self.chunk.append(
             {"type": type, "id": id, "tags": attrs, "bbox": bbox, "geometry": wkb}
